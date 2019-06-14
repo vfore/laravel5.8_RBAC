@@ -21,9 +21,9 @@
                 <div class="layui-card">
                     <div class="layui-card-body">
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" onclick="xadmin.open('添加管理员','{{asset('admin/adminUser/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加管理员','{{asset('admin/administrator/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
                         </div>
-                        <form action="{{asset('admin/adminUser')}}">
+                        <form action="{{asset('admin/administrator')}}">
                             <div class="layui-inline layui-show-xs-block">
                                 <input type="text" name="keyword" value="{{$keyword}}" placeholder="手机" autocomplete="off" class="layui-input">
                             </div>
@@ -58,7 +58,7 @@
                                         <span class="layui-btn layui-btn-normal layui-btn-mini {{$v['status'] == 1 ? '' : 'layui-btn-disabled'}}">{{$v['status'] == 1 ? '已启用' : '已停用'}}</span>
                                     </td>
                                     <td class="td-manage">
-                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/adminUser/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
+                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/administrator/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                         </a>
                                         <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
@@ -92,7 +92,7 @@
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据
                 $.ajax({
-                    url: '{{asset('admin/adminUser')}}/' + id,
+                    url: '{{asset('admin/administrator')}}/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                     headers: {

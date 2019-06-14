@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreAdminUser extends FormRequest
+class AdministratorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +26,12 @@ class StoreAdminUser extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('adminUser');
+        $id = $this->route('administrator');
         // 包含regex使用数组
         return [
             'nickname' => ['required', 'regex:/^[_\w\d\x{4e00}-\x{9fa5}]{2,20}$/iu'],
-            'phone' => ['required', 'regex:/^1[3-9][0-9]{9}$/', 'unique:admin_users,phone,' . $id],
-            'email' => 'required|unique:admin_users,email,'. $id . '|email',
+            'phone' => ['required', 'regex:/^1[3-9][0-9]{9}$/', 'unique:administrators,phone,' . $id],
+            'email' => 'required|unique:administrators,email,'. $id . '|email',
             'password' => !is_null($id) ? 'nullable|min:6|max:20' : 'required|min:6|max:20',
         ];
     }

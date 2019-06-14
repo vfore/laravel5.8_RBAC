@@ -8,7 +8,7 @@ Route::get('/index', function () {
 })->name('admin_index');
 
 Route::group(['namespace' => 'Admin'], function () {
-    Route::resource('adminUser', 'AdminUserController');
+    Route::resource('administrator', 'AdministratorController');
     Route::resource('role', 'RoleController');
     Route::resource('permission', 'PermissionController');
 });
