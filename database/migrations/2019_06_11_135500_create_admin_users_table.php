@@ -15,10 +15,9 @@ class CreateAdminUsersTable extends Migration
     {
         Schema::create('admin_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username', 191)->unique()->comment('用户名');
+            $table->string('nickname', 191)->comment('昵称');
             $table->string('phone', 11)->unique()->comment('手机号');
             $table->string('email', 191)->unique()->comment('邮箱');
-            $table->string('name', 191)->comment('名称');
             $table->string('password', 191)->comment('密码');
             $table->tinyInteger('status')->default(1)->comment('状态：0 禁用，1 启用，2 已删除');
             $table->timestamps();

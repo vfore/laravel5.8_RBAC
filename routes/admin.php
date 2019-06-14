@@ -1,5 +1,4 @@
 <?php
-
 /*
  * 后台路由文件
 */
@@ -8,10 +7,9 @@ Route::get('/index', function () {
     return view('admin.layout.layout');
 })->name('admin_index');
 
-Route::get('/adminUser', function () {
-    return view('admin.admin_user.list');
+Route::group(['namespace' => 'Admin'], function () {
+    Route::resource('adminUser', 'AdminUserController');
+    Route::resource('role', 'RoleController');
+    Route::resource('permission', 'PermissionController');
 });
 
-Route::get('/adminUser/create', function () {
-    return view('admin.admin_user.create');
-});

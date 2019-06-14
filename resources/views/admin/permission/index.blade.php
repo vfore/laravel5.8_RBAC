@@ -5,7 +5,7 @@
         <span class="layui-breadcrumb">
             <a href="">首页</a>
             <a>
-                <cite>管理员列表</cite>
+                <cite>权限管理</cite>
             </a>
         </span>
         <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
@@ -21,11 +21,11 @@
                 <div class="layui-card">
                     <div class="layui-card-body">
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" onclick="xadmin.open('添加管理员','{{asset('admin/adminUser/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','{{asset('admin/permission/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
                         </div>
-                        <form action="{{asset('admin/adminUser')}}">
+                        <form action="{{asset('admin/permission')}}">
                             <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="keyword" value="{{$keyword}}" placeholder="手机" autocomplete="off" class="layui-input">
+                                <input type="text" name="keyword" value="{{$keyword}}" placeholder="权限名称" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-inline layui-show-xs-block">
                                 <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -38,11 +38,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>昵称</th>
-                                <th>手机</th>
-                                <th>邮箱</th>
-                                <th>角色</th>
-                                <th>状态</th>
+                                <th>权限名</th>
+                                <th>路由</th>
+                                <th>类型</th>
+                                <th>排序</th>
                                 <th>操作</th>
                             </thead>
                             <tbody>
@@ -50,15 +49,12 @@
                             @foreach($data as $v)
                                 <tr>
                                     <td>{{$v['id']}}</td>
-                                    <td>{{$v['nickname']}}</td>
-                                    <td>{{$v['phone']}}</td>
-                                    <td>{{$v['email']}}</td>
-                                    <td></td>
-                                    <td class="td-status">
-                                        <span class="layui-btn layui-btn-normal layui-btn-mini {{$v['status'] == 1 ? '' : 'layui-btn-disabled'}}">{{$v['status'] == 1 ? '已启用' : '已停用'}}</span>
-                                    </td>
+                                    <td>{{$v['name']}}</td>
+                                    <td>{{$v['route']}}</td>
+                                    <td>{{$v['type']}}</td>
+                                    <td>{{$v['sort']}}</td>
                                     <td class="td-manage">
-                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/adminUser/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
+                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/permission/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                         </a>
                                         <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
@@ -69,7 +65,7 @@
                             @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7">暂无数据</td>
+                                    <td colspan="6" align="center">暂无数据</td>
                                 </tr>
                             @endif
                             </tbody>
@@ -92,7 +88,7 @@
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据
                 $.ajax({
-                    url: '{{asset('admin/adminUser')}}/' + id,
+                    url: '{{asset('admin/permission')}}/' + id,
                     type: 'DELETE',
                     dataType: 'json',
                     headers: {
