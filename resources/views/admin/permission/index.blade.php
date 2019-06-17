@@ -21,7 +21,7 @@
                 <div class="layui-card">
                     <div class="layui-card-body">
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" onclick="xadmin.open('添加','{{asset('admin/permission/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','{{asset('admin/permission/create')}}?pid=0&level=1&path=0_',600,500)"><i class="layui-icon"></i>添加</button>
                         </div>
                         <form action="{{asset('admin/permission')}}">
                             <div class="layui-inline layui-show-xs-block">
@@ -45,7 +45,6 @@
                                 <th>操作</th>
                             </thead>
                             <tbody>
-                            @if($data->total() > 0)
                             @foreach($data as $v)
                                 <tr>
                                     <td>{{$v['id']}}</td>
@@ -54,26 +53,21 @@
                                     <td>{{$v['type']}}</td>
                                     <td>{{$v['sort']}}</td>
                                     <td class="td-manage">
-                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/permission/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
-                                            <i class="layui-icon">&#xe642;</i>
-                                        </a>
-                                        <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
-                                            <i class="layui-icon">&#xe640;</i>
-                                        </a>
+                                        <button class="layui-btn layui-btn layui-btn-xs"
+                                                onclick="xadmin.open('编辑','{{asset('admin/permission/' . $v['id'] . '/edit')}}', 600, 500)" >
+                                            <i class="layui-icon">&#xe642;</i>编辑
+                                        </button>
+                                        <button class="layui-btn layui-btn-warm layui-btn-xs"
+                                                onclick="xadmin.open('添加','{{asset('admin/permission/create?pid=' . $v['id'] . '&level=' . ($v['level'] + 1) . '&path=' . $v['path'] . $v['id'] . '_')}}', 600, 500)" >
+                                            <i class="layui-icon">&#xe642;</i>添加子栏目
+                                        </button>
+                                        <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{{$v['id']}}')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
                                     </td>
                                 </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="6" align="center">暂无数据</td>
-                                </tr>
-                            @endif
                             </tbody>
                         </table>
                     </div>
-                    @if($data->lastPage() > 1)
-                        {{$data->appends(['keyword' => $request->keyword])->links('admin.layout.page', ['data' => $data])}}
-                    @endif
                 </div>
             </div>
         </div>

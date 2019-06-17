@@ -17,7 +17,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->keyword;
-        $data = AdminPermission::where('name', 'like', '%' . $keyword . '%')->orderBy('id', 'desc')->paginate(15);
+        $data = AdminPermission::where('name', 'like', '%' . $keyword . '%')->orderBy('id', 'desc')->get()->toArray();
         return view('admin.permission.index', compact('data', 'request', 'keyword'));
     }
 
@@ -25,9 +25,10 @@ class PermissionController extends Controller
      * 权限新增视图
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.permission.create');
+        $requestData = $request->all();
+        return view('admin.permission.create', compact('requestData'));
     }
 
     /**

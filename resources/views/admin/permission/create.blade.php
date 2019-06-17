@@ -4,9 +4,12 @@
     <div class="layui-fluid">
         <div class="layui-row">
             <form class="layui-form">
+                <input type="hidden" name="pid" value="{{$requestData['pid']}}">
+                <input type="hidden" name="path" value="{{$requestData['path']}}">
+                <input type="hidden" name="level" value="{{$requestData['level']}}">
                 <div class="layui-form-item">
                     <label for="name" class="layui-form-label">
-                        <span class="x-red">*</span>权限名
+                        <span class="x-red">*</span>权限名称
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="name" name="name" required="" autocomplete="off" class="layui-input">
@@ -14,7 +17,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label for="phone" class="layui-form-label">
-                        <span class="x-red">*</span>路由
+                        <span class="x-red">*</span>路由标识
                     </label>
                     <div class="layui-input-inline">
                         <input type="text" id="route" name="route" required=""  autocomplete="off" class="layui-input">
@@ -23,8 +26,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="x-red">*</span>类型</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="type" value="1" lay-skin="primary" title="菜单" checked>
-                        <input type="radio" name="type" value="2" lay-skin="primary" title="tab" >
+                        <input type="radio" name="type" value="1" lay-skin="primary" title="目录" checked>
+                        <input type="radio" name="type" value="2" lay-skin="primary" title="菜单" >
                         <input type="radio" name="type" value="3" lay-skin="primary" title="按钮" >
                     </div>
                 </div>

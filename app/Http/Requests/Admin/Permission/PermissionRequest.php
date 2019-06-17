@@ -27,15 +27,13 @@ class PermissionRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'route' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => '权限名不能为空',
-            'route.required' => '路由名不能为空',
+            'name.required' => '权限名称不能为空',
         ];
     }
 
