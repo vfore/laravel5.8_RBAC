@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\Permission\PermissionRequest;
 use App\Models\AdminPermission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -16,9 +17,16 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
+        $typeName = [
+            1 => '目录',
+            2 => '菜单',
+            3 => '按钮'
+        ];
         $keyword = $request->keyword;
-        $data = AdminPermission::where('name', 'like', '%' . $keyword . '%')->orderBy('id', 'desc')->get()->toArray();
-        return view('admin.permission.index', compact('data', 'request', 'keyword'));
+        $data = AdminPermission::where('name', 'like', '%' . $keyword . '%')
+            ->orderBy(DB::raw('concat(path, "", id)') ,'asc')
+            ->get();
+        return view('admin.permission.index', compact('data', 'request', 'keyword', 'typeName'));
     }
 
     /**
@@ -34,7 +42,7 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PermissionRequest $request)
@@ -49,7 +57,7 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)

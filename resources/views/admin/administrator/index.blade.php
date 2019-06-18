@@ -69,7 +69,7 @@
                             @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7">暂无数据</td>
+                                    <td colspan="7" align="center">暂无数据</td>
                                 </tr>
                             @endif
                             </tbody>

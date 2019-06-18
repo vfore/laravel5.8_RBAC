@@ -23,8 +23,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="x-red">*</span>类型</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="type" value="1" lay-skin="primary" title="菜单" {{$data->type == 1 ? 'checked' : ''}}>
-                        <input type="radio" name="type" value="2" lay-skin="primary" title="tab" {{$data->type == 2 ? 'checked' : ''}}>
+                        <input type="radio" name="type" value="1" lay-skin="primary" title="目录" {{$data->type == 1 ? 'checked' : ''}}>
+                        <input type="radio" name="type" value="2" lay-skin="primary" title="菜单" {{$data->type == 2 ? 'checked' : ''}}>
                         <input type="radio" name="type" value="3" lay-skin="primary" title="按钮" {{$data->type == 3 ? 'checked' : ''}}>
                     </div>
                 </div>

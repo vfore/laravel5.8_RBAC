@@ -52,12 +52,17 @@
                                     <td>{{$v['description']}}</td>
                                     <td>{{$v['sort']}}</td>
                                     <td class="td-manage">
-                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/role/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
-                                            <i class="layui-icon">&#xe642;</i>
-                                        </a>
-                                        <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
-                                            <i class="layui-icon">&#xe640;</i>
-                                        </a>
+                                        <button class="layui-btn layui-btn layui-btn-xs"
+                                                onclick="xadmin.open('权限配置','{{asset('admin/role/' . $v['id'] . '/permission')}}', 600, 500)" >
+                                            <i class="layui-icon">&#xe642;</i>权限配置
+                                        </button>
+                                        <button class="layui-btn layui-btn layui-btn-xs"
+                                                onclick="xadmin.open('编辑','{{asset('admin/role/' . $v['id'] . '/edit')}}', 600, 500)" >
+                                            <i class="layui-icon">&#xe642;</i>编辑
+                                        </button>
+                                        <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{{$v['id']}}')" href="javascript:;" >
+                                            <i class="layui-icon">&#xe640;</i>删除
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach

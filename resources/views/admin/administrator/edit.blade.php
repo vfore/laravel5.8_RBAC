@@ -50,7 +50,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="x-red">*</span>角色</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="role" value="1" lay-skin="primary" title="超级管理员" checked="">
+                        @foreach($roles as $v)
+                            <input type="checkbox" name="admin_role_id[]" value="{{$v['id']}}" lay-skin="primary" title="{{$v['name']}}" {{in_array($v['id'], $ownRoles) ? 'checked' : ''}}>
+                        @endforeach
                     </div>
                 </div>
                 <div class="layui-form-item">

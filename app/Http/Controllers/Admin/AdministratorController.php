@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\AdminUser\AdministratorRequest;
 use App\Models\Administrator;
+use App\Models\AdminRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,8 @@ class AdministratorController extends Controller
      */
     public function create()
     {
-        return view('admin.administrator.create');
+        $data = AdminRole::get()->toArray();
+        return view('admin.administrator.create', compact('data'));
     }
 
     /**
@@ -40,7 +42,19 @@ class AdministratorController extends Controller
         $requestData = $request->all();
         // hash加密
         $requestData['password'] = bcrypt($requestData['password']);
-        if (Administrator::create($requestData)) {
+        // 新增用户
+        $administrator = Administrator::create($requestData);
+        if ($administrator) {
+
+            $roles = AdminRole::findMany($request->admin_role_id);
+            $ownRoles = $administrator->roles; // 已拥有角色
+            // 获取选择中未拥有的角色
+            $insertRoles = $roles->diff($ownRoles);
+            // 分配用户
+            foreach ($insertRoles as $role) {
+                $administrator->assignRole($role);
+            }
+
             return response()->json(['code' => 200, 'result' => 'success', 'msg' => '保存成功']);
         } else {
             return response()->json(['code' => 500, 'result' => 'fail', 'msg' => '保存失败']);
@@ -66,7 +80,10 @@ class AdministratorController extends Controller
     public function edit($id)
     {
         $data = Administrator::where('id', $id)->first();
-        return view('admin.administrator.edit', compact('data', 'id'));
+        $roles = AdminRole::get()->toArray();
+        $ownRoles = $data->roles->toArray(); // 拥有角色
+        $ownRoles = array_column($ownRoles, 'id');
+        return view('admin.administrator.edit', compact('data', 'id', 'roles', 'ownRoles'));
     }
 
     /**
@@ -77,13 +94,30 @@ class AdministratorController extends Controller
      */
     public function update(AdministratorRequest $request, $id)
     {
-       $data = $request->except('role');
+       $data = $request->except(['role', 'admin_role_id']);
        if ($request->password) {
             $data['password'] = bcrypt($request->password);
        } else {
            unset($data['password']);
        }
+
        if (Administrator::where('id', $id)->update($data)) {
+           $administrator = Administrator::where('id', $id)->first();
+           $roles = AdminRole::findMany($request->admin_role_id);
+           $ownRoles = $administrator->roles; // 已拥有角色
+           // 获取选择中未拥有的角色
+           $insertRoles = $roles->diff($ownRoles);
+           // 分配用户
+           foreach ($insertRoles as $role) {
+               $administrator->assignRole($role);
+           }
+
+           $delRoles = $ownRoles->diff($roles);
+            // 删除未选择但已有的角色
+            foreach ($delRoles as $v) {
+                $administrator->deleteRole($v);
+            }
+
            return response()->json(['code' => 200, 'result' => 'success', 'msg' => '保存成功']);
        } else {
            return response()->json(['code' => 500, 'result' => 'fail', 'msg' => '保存失败']);

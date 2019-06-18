@@ -41,17 +41,18 @@
                                 <th>权限名</th>
                                 <th>路由</th>
                                 <th>类型</th>
-                                <th>排序</th>
                                 <th>操作</th>
                             </thead>
                             <tbody>
                             @foreach($data as $v)
                                 <tr>
                                     <td>{{$v['id']}}</td>
-                                    <td>{{$v['name']}}</td>
-                                    <td>{{$v['route']}}</td>
-                                    <td>{{$v['type']}}</td>
-                                    <td>{{$v['sort']}}</td>
+                                    <td>
+                                        {!! str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', mb_substr_count($v['path'], '_')) !!}|-
+                                        {{$v['name']}}
+                                    </td>
+                                    <td>{{$v['route'] ? $v['route'] : '---'}}</td>
+                                    <td>{{$typeName[$v['type']]}}</td>
                                     <td class="td-manage">
                                         <button class="layui-btn layui-btn layui-btn-xs"
                                                 onclick="xadmin.open('编辑','{{asset('admin/permission/' . $v['id'] . '/edit')}}', 600, 500)" >
@@ -61,7 +62,9 @@
                                                 onclick="xadmin.open('添加','{{asset('admin/permission/create?pid=' . $v['id'] . '&level=' . ($v['level'] + 1) . '&path=' . $v['path'] . $v['id'] . '_')}}', 600, 500)" >
                                             <i class="layui-icon">&#xe642;</i>添加子栏目
                                         </button>
-                                        <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{{$v['id']}}')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
+                                        <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;" >
+                                            <i class="layui-icon">&#xe640;</i>删除
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
