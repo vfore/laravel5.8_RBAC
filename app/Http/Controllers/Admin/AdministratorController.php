@@ -18,7 +18,12 @@ class AdministratorController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->keyword;
-        $data = Administrator::where('phone', 'like', '%'. $keyword . '%')->orderBy('id', 'desc')->paginate(15);
+        $data = Administrator::where('phone', 'like', '%'. $keyword . '%')
+            ->orWhere('email', 'like', '%' . $keyword . '%')
+            ->orderBy('id', 'desc')
+            ->select('id', 'nickname', 'phone', 'email', 'status')
+            ->with('roles')
+            ->paginate(15);
         return view('admin.administrator.index', compact('data', 'request', 'keyword'));
     }
 

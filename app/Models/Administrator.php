@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Administrator extends Model
+class Administrator extends Authenticatable
 {
+    use Notifiable;
+
     protected $table = 'administrators';
     protected $fillable = [
         'nickname', 'phone', 'email', 'status', 'password'

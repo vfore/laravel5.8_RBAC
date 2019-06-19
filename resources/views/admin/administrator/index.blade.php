@@ -21,11 +21,11 @@
                 <div class="layui-card">
                     <div class="layui-card-body">
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" onclick="xadmin.open('添加管理员','{{asset('admin/administrator/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','{{asset('admin/administrator/create')}}',600,500)"><i class="layui-icon"></i>添加</button>
                         </div>
                         <form action="{{asset('admin/administrator')}}">
                             <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="keyword" value="{{$keyword}}" placeholder="手机" autocomplete="off" class="layui-input">
+                                <input type="text" name="keyword" value="{{$keyword}}" placeholder="手机/邮箱" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-inline layui-show-xs-block">
                                 <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -47,23 +47,36 @@
                             </thead>
                             <tbody>
                             @if($data->total() > 0)
-                            @foreach($data as $v)
+                            @foreach(($data->toArray())['data'] as $v)
                                 <tr>
                                     <td>{{$v['id']}}</td>
                                     <td>{{$v['nickname']}}</td>
                                     <td>{{$v['phone']}}</td>
                                     <td>{{$v['email']}}</td>
-                                    <td></td>
+                                    <td>
+                                        @if(!empty($v['roles']))
+                                            @foreach($v['roles'] as $k => $item)
+                                                @if($k < count($v['roles']) - 1)
+                                                    {{$item['name'] . ','}}
+                                                @else
+                                                    {{$item['name']}}
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td class="td-status">
                                         <span class="layui-btn layui-btn-normal layui-btn-mini {{$v['status'] == 1 ? '' : 'layui-btn-disabled'}}">{{$v['status'] == 1 ? '已启用' : '已停用'}}</span>
                                     </td>
                                     <td class="td-manage">
-                                        <a title="编辑"  onclick="xadmin.open('编辑','{{asset('admin/administrator/' . $v['id'] . '/edit')}}', 600, 500)" href="javascript:;">
-                                            <i class="layui-icon">&#xe642;</i>
-                                        </a>
-                                        <a title="删除" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;">
-                                            <i class="layui-icon">&#xe640;</i>
-                                        </a>
+                                        <button class="layui-btn layui-btn layui-btn-xs"
+                                                onclick="xadmin.open('编辑','{{asset('admin/administrator/' . $v['id'] . '/edit')}}', 600, 500)" >
+                                            <i class="layui-icon">&#xe642;</i>编辑
+                                        </button>
+                                        <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{{$v['id']}}')" href="javascript:;" >
+                                            <i class="layui-icon">&#xe640;</i>删除
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,7 +88,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if($data->lastPage() > 1)
+                    @if($data['last_page'] > 1)
                         {{$data->appends(['keyword' => $request->keyword])->links('admin.layout.page', ['data' => $data])}}
                     @endif
                 </div>
