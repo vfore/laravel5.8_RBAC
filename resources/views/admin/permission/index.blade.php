@@ -93,7 +93,8 @@
                     },
                     success: function (json) {
                         if (json.code == 200) {
-                            $(obj).parents("tr").remove();
+                            xadmin.father_reload();
+                            // $(obj).parents("tr").remove();
                             layer.msg('已删除!',{icon:1, time:1000});
                         } else {
                             layer.msg('删除失败',{icon:6, time:1000});

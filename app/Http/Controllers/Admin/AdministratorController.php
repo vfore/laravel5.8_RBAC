@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\AdminUser\AdministratorRequest;
+use App\Http\Requests\Admin\Administrator\AdministratorRequest;
 use App\Models\Administrator;
 use App\Models\AdminRole;
 use Illuminate\Http\Request;

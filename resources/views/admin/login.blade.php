@@ -23,13 +23,13 @@
 <div class="login layui-anim layui-anim-up">
     <div class="message">后台登录</div>
     <div id="darkbannerwrap"></div>
-
-    <form method="post" class="layui-form" >
+    <form method="post" class="layui-form" style="position: relative">
         <input name="username" placeholder="手机号或邮箱"  type="text" lay-verify="required" class="layui-input" >
         <hr class="hr15">
         <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
         <hr class="hr15">
-        <input name="code" lay-verify="required" placeholder="验证码"  type="text" class="layui-input" style="width: 65%;">
+        <input name="code" lay-verify="required" placeholder="验证码"  type="text" class="layui-input" style="width: 62%;">
+        <img style="cursor: pointer;position: absolute; top: 130px; left: 220px;height: 50px" onclick="this.src='{{captcha_src('flat')}}'+Math.random()" src="{{captcha_src('flat')}}" id="captcha" alt="验证码">
         <hr class="hr15">
         <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
         <hr class="hr20" >
@@ -55,6 +55,7 @@
                             location.href = json.url;
                         } else {
                             layer.alert(json.msg, {icon: 5});
+                            $('#captcha').trigger('click');
                         }
                     }
                 });

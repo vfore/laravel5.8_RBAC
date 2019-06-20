@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -24,6 +25,21 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required',
+            'code' => 'required|captcha',
+        ], [
+            'username' => '手机或邮箱不能为空',
+            'password' => '密码不能为空',
+            'code.required' => '验证码不能为空',
+            'code.captcha' => '验证码错误'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => '500', 'msg' => $validator->errors()->first()]);
+        }
+
         $credentials['phone'] = $request->username;
         $credentials['password'] = $request->password;
         $credentials['status'] = 1;

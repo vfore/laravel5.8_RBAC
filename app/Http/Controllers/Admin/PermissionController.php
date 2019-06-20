@@ -93,15 +93,17 @@ class PermissionController extends Controller
 
     /**
      * 权限删除
-     * @param $id
+     * @param AdminPermission $permission
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(AdminPermission $permission)
     {
-        if (AdminPermission::destroy($id)) {
-            return response()->json(['code' => 200, 'result' => 'success', 'msg' => '已删除']);
-        } else {
-            return response()->json(['code' => 500, 'result' => 'fail', 'msg' => '删除失败']);
+        $children = $permission->children;
+        foreach ($children as $child) {
+            $child->delete();
         }
+        $permission->delete();
+        return response()->json(['code' => 200, 'result' => 'success', 'msg' => '已删除']);
     }
 }

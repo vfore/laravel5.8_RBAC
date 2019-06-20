@@ -17,7 +17,7 @@ class AdminRole extends Model
      */
     public function permissions()
     {
-        return $this->belongsToMany(AdminPermission::class, 'admin_role_permissions', 'admin_role_id', 'admin_permission_id');
+        return $this->belongsToMany(AdminPermission::class, 'admin_role_permissions', 'admin_role_id', 'admin_permission_id')->orderBy('admin_permissions.sort', 'desc');
 //        return $this->belongsToMany(AdminPermission::class, 'admin_role_permission', 'admin_role_id', 'admin_permission_id')->withPivot(['admin_role_id', 'admin_permission_id']);
     }
 

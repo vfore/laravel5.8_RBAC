@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\AdminUser;
+namespace App\Http\Requests\Admin\Administrator;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
